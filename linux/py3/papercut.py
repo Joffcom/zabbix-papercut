@@ -18,9 +18,6 @@ for line in file.readlines():
     if key == 'papercut_auth':
         serverauth = value[1:-2]
 
-print( serverip )
-print( serverauth )
-
 url='http://{0}/api/health?{1}'.format(serverip,serverauth)
 url2='http://{0}/api/stats/held-jobs-count?minutes=10&{1}'.format(serverip,serverauth)
 url3='http://{0}/api/stats/recent-pages-count?minutes=60&{1}'.format(serverip,serverauth)
