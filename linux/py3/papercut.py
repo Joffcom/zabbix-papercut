@@ -4,8 +4,13 @@ import urllib.request as ur
 import sys
 import json
 import codecs
+import platform
 
-file=open('/etc/zabbix/papercut.conf','r')
+if platform.system() == 'Linux':
+  file=open('/etc/zabbix/papercut.conf','r')
+elif platform.system() == 'Windows':
+  file=open('C:/zabbix/binz/papercut.conf','r')
+
 for line in file.readlines():
     (key, sep, value) = line.partition('=')
     if key == 'papercut_ip':
@@ -13,6 +18,8 @@ for line in file.readlines():
     if key == 'papercut_auth':
         serverauth = value[1:-2]
 
+print( serverip )
+print( serverauth )
 
 url='http://{0}/api/health?{1}'.format(serverip,serverauth)
 url2='http://{0}/api/stats/held-jobs-count?minutes=10&{1}'.format(serverip,serverauth)
@@ -77,8 +84,44 @@ def main():
     print(validlicense)
 
   elif sys.argv[1]=='licenseRemaining':
-    licenseRemaining = data['license']['licenseRemainingDays']
+    licenseRemaining = data['license']['upgradeAssuranceRemainingDays']
     print(licenseRemaining)
+
+  elif sys.argv[1]=='licenseUsersUsed':
+    licenseUsersUsed = data['license']['users']['used']
+    print(licenseUsersUsed)
+  
+  elif sys.argv[1]=='licenseUsersLicensed':
+    licenseUsersLicensed = data['license']['users']['licensed']
+    print(licenseUsersLicensed)
+
+  elif sys.argv[1]=='licenseUsersRemaining':
+    licenseUsersRemaining = data['license']['users']['remaining']
+    print(licenseUsersRemaining)
+
+  elif sys.argv[1]=='licenseSiteServersUsed':
+    licenseSiteServersUsed = data['license']['siteServers']['used']
+    print(licenseSiteServersUsed)
+  
+  elif sys.argv[1]=='licenseSiteServersLicensed':
+    licenseSiteServersLicensed = data['license']['siteServers']['licensed']
+    print(licenseSiteServersLicensed)
+
+  elif sys.argv[1]=='licenseSiteServersRemaining':
+    licenseSiteServersRemaining = data['license']['siteServers']['remaining']
+    print(licenseSiteServersRemaining)
+
+  elif sys.argv[1]=='licenseAdvancedClientsUsed':
+    licenseAdvancedClientsUsed = data['license']['advancedClients']['used']
+    print(licenseAdvancedClientsUsed)
+  
+  elif sys.argv[1]=='licenseAdvancedClientsLicensed':
+    licenseAdvancedClientsLicensed = data['license']['advancedClients']['licensed']
+    print(licenseAdvancedClientsLicensed)
+
+  elif sys.argv[1]=='licenseAdvancedClientsRemaining':
+    licenseAdvancedClientsRemaining = data['license']['advancedClients']['remaining']
+    print(licenseAdvancedClientsRemaining)
 
   elif sys.argv[1]=='databaseStatus':
     databaseStatus = data['database']['status']
@@ -127,6 +170,18 @@ def main():
   elif sys.argv[1]=='gcExecutions':
     gcExecutions = data['applicationServer']['systemMetrics']['gcExecutions']
     print(gcExecutions)
+
+  elif sys.argv[1]=='siteserverCount':
+    siteserverCount = data['siteServers']['count']
+    print(siteserverCount)
+
+  elif sys.argv[1]=='siteserverOfflineCount':
+    siteserverOfflineCount = data['siteServers']['offlineCount']
+    print(siteserverOfflineCount)
+
+  elif sys.argv[1]=='siteserverOfflinePercentage':
+    siteserverOfflinePercentage = data['siteServers']['offlinePercentage']
+    print(siteserverOfflinePercentage)
 
 if __name__ == '__main__':
     main()
