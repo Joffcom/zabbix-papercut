@@ -43,18 +43,34 @@ def main():
   elif sys.argv[1]=='diskSpaceFreeMB':
     diskSpaceFreeMB = data['applicationServer']['systemMetrics']['diskSpaceFreeMB']
     print(diskSpaceFreeMB)
+  
+  elif sys.argv[1]=='diskSpaceTotalMB':
+    diskSpaceTotalMB = data['applicationServer']['systemMetrics']['diskSpaceTotalMB']
+    print(diskSpaceTotalMB)
+
+  elif sys.argv[1]=='diskSpaceUsedPercentage':
+    diskSpaceUsedPercentage = data['applicationServer']['systemMetrics']['diskSpaceUsedPercentage']
+    print(diskSpaceUsedPercentage)
 
   elif sys.argv[1]=='jvmMemoryUsedPercentage':
     jvmMemoryUsedPercentage = data['applicationServer']['systemMetrics']['jvmMemoryUsedPercentage']
     print(jvmMemoryUsedPercentage)
 
+  elif sys.argv[1]=='jvmMemoryMaxMB':
+    jvmMemoryMaxMB = data['applicationServer']['systemMetrics']['jvmMemoryMaxMB']
+    print(jvmMemoryMaxMB)
+
+  elif sys.argv[1]=='jvmMemoryTotalMB':
+    jvmMemoryTotalMB = data['applicationServer']['systemMetrics']['jvmMemoryTotalMB']
+    print(jvmMemoryTotalMB)
+
+  elif sys.argv[1]=='jvmMemoryUsedMB':
+    jvmMemoryUsedMB = data['applicationServer']['systemMetrics']['jvmMemoryUsedMB']
+    print(jvmMemoryUsedMB)
+
   elif sys.argv[1]=='uptimeHours':
     uptimeHours = data['applicationServer']['systemMetrics']['uptimeHours']
     print(uptimeHours)
-
-  elif sys.argv[1]=='diskSpaceUsedPercentage':
-    diskSpaceUsedPercentage = data['applicationServer']['systemMetrics']['diskSpaceUsedPercentage']
-    print(diskSpaceUsedPercentage)
 
   elif sys.argv[1]=='validlicense':
     validlicense = data['license']['valid']
@@ -76,6 +92,18 @@ def main():
     maxConnections = data['database']['maxConnections']
     print(maxConnections)
 
+  elif sys.argv[1]=='totalConnections':
+    totalConnections = data['database']['totalConnections']
+    print(totalConnections)
+  
+  elif sys.argv[1]=='timeToConnectMilliseconds':
+    timeToConnectMilliseconds = data['database']['timeToConnectMilliseconds']
+    print(timeToConnectMilliseconds)
+
+  elif sys.argv[1]=='timeToQueryMilliseconds':
+    timeToQueryMilliseconds = data['database']['timeToQueryMilliseconds']
+    print(timeToQueryMilliseconds)
+
   elif sys.argv[1]=='heldJobsCount':
     heldJobsCount = data2['heldJobsCount']
     print(heldJobsCount)
@@ -83,6 +111,22 @@ def main():
   elif sys.argv[1]=='recentPagesCount':
     recentPagesCount = data3['recentPagesCount']
     print(recentPagesCount)
+
+  elif sys.argv[1]=='processCpuLoadPercentage':
+    processCpuLoadPercentage = data['applicationServer']['systemMetrics']['processCpuLoadPercentage']
+    print(processCpuLoadPercentage)
+
+  elif sys.argv[1]=='systemCpuLoadPercentage':
+    systemCpuLoadPercentage = data['applicationServer']['systemMetrics']['systemCpuLoadPercentage']
+    print(systemCpuLoadPercentage)
+
+  elif sys.argv[1]=='gcTimeMilliseconds':
+    gcTimeMilliseconds = data['applicationServer']['systemMetrics']['gcTimeMilliseconds']
+    print(gcTimeMilliseconds)
+
+  elif sys.argv[1]=='gcExecutions':
+    gcExecutions = data['applicationServer']['systemMetrics']['gcExecutions']
+    print(gcExecutions)
 
 if __name__ == '__main__':
     main()
