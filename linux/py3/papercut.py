@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 
 import urllib.request as ur
-import sys
-import json
-import codecs
-import platform
+import sys, json, codecs, ssl
 
-if platform.system() == 'Linux':
-  file=open('/etc/zabbix/papercut.conf','r')
-elif platform.system() == 'Windows':
-  file=open('C:/zabbix/binz/papercut.conf','r')
+sys.tracebacklimit=0 # Make the errors a bit clearer for those that don't Python
+ssl._create_default_https_context = ssl._create_unverified_context # Ignore Cert errors
+
+file = open('/etc/zabbix/papercut.conf', 'r')
+
+protocol = 'https' # Set default protocol to HTTPS
 
 for line in file.readlines():
     (key, sep, value) = line.partition('=')
@@ -17,15 +16,18 @@ for line in file.readlines():
         serverip = value[1:-2]
     if key == 'papercut_auth':
         serverauth = value[1:-2]
+    if key == 'https':
+        useHTTPS = value[0:]
 
-url='http://{0}/api/health?{1}'.format(serverip,serverauth)
-url2='http://{0}/api/stats/held-jobs-count?minutes=10&{1}'.format(serverip,serverauth)
-url3='http://{0}/api/stats/recent-pages-count?minutes=60&{1}'.format(serverip,serverauth)
+if useHTTPS != 'true':
+  print ( 'using http')
+  protocol = 'http'
 
-#response = ur.urlopen(url)
+url='{0}://{1}/api/health?{2}'.format(protocol,serverip,serverauth)
+url2='{0}://{1}/api/stats/held-jobs-count?minutes=10&{2}'.format(protocol,serverip,serverauth)
+url3='{0}://{1}/api/stats/recent-pages-count?minutes=60&{2}'.format(protocol,serverip,serverauth)
+
 reader = codecs.getreader("utf-8")
-#json_input = json.load(reader(response))
-
 
 response = ur.urlopen(url)
 data = json.load(reader(response))
@@ -38,6 +40,7 @@ data3 = json.load(reader(response3))
 
 def main():
   if len(sys.argv)<2:
+    # TODO: Add all options to this
     print("Run as:\n{0} [version | diskSpaceFreeMB | jvmMemoryUsedPercentage | uptimeHours]".format(sys.argv[0]))
 
   elif sys.argv[1]=='version':
